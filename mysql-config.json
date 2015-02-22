@@ -1,0 +1,6 @@
+{
+host : "mysql.sepdb.alwaysdata.net",
+user : "sepdb",
+password : "security1",
+database : "sepdb_database"
+}
