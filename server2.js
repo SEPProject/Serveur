@@ -23,6 +23,8 @@ function dataCallback(res) {
 app.get('/user', function (req, res) {
 	data.getuser(req.body, dataCallback(res));
 
+
+
 });
 
 
