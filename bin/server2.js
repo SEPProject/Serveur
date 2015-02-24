@@ -21,6 +21,8 @@ function dataCallback(res) {
 }
 
 app.get('/user', function (req, res) {
+
+    console.log("salut");
 	data.getuser(req.body, dataCallback(res));
 
 
@@ -29,6 +31,9 @@ app.get('/user', function (req, res) {
 
 
 app.post('/user', function(req, res) {
+ console.log(req.params);
+ res.send('hi');
+
 	data.adduser(req.body, dataCallback(res));
 });
 app.put('/user', function(req, res) {
