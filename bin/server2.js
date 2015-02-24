@@ -20,12 +20,18 @@ function dataCallback(res) {
     }
 }
 
+<<<<<<< HEAD
 app.get('/user', function (req, res) {
 
     console.log("salut");
 	data.getuser(req.body, dataCallback(res));
 
 
+=======
+http.get('/user', function (req, res) {
+	console.log("salut");
+	//data.getuser(req.body, dataCallback(res));
+>>>>>>> a3eb33cfbbed9415c66501cff89db0cbb8df1910
 
 });
 
