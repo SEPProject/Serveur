@@ -20,10 +20,9 @@ function dataCallback(res) {
     }
 }
 
-app.get('/user', function (req, res) {
-	data.getuser(req.body, dataCallback(res));
-
-
+http.get('/user', function (req, res) {
+	console.log("salut");
+	//data.getuser(req.body, dataCallback(res));
 
 });
 
