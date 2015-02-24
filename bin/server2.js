@@ -2,9 +2,28 @@ var data = require('./bdd_data.js');
 var express = require("express");
 var app = express();
 
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 
 var http = require("http");
 var server = http.createServer(app)
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
+// uncomment after placing your favicon in /public
+//app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+
 
 // Listen to port 3000 
 server.listen(3000);
@@ -23,14 +42,11 @@ function dataCallback(res) {
 app.get('/user', function (req, res) {
 
     console.log("salut");
-    console.log(req.body);
 	data.getuser(req.body, dataCallback(res));
 });
 
 app.post('/user', function(req, res) {
- console.log(req.params);
- res.send('hi');
-
+    console.log(req.body);
 	data.adduser(req.body, dataCallback(res));
 });
 app.put('/user', function(req, res) {
