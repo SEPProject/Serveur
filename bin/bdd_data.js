@@ -21,7 +21,8 @@ exports.getuser = function(id, callback) {
 
 exports.adduser = function(values, callback) {
     if (checkColumns(values)) {
-        db.insert('user_table', values, callback);
+        db.insert('`sepdb_database`.`user_table`', values, callback);
+
     } else {
         callback('Invalid column name', null);
     }

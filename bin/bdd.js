@@ -12,11 +12,14 @@ database : "sepdb_database"
 
 function hashToClause(hash, separator) {
     var result = '';
+
     var values = [];
     var first = true;
     for (var key in hash) {
-        result += (first ? '' : separator) + key + ' = ?';
+        result += (first ? '' : separator) + key ;
+
         values.push(hash[key]);
+
         first = false;
     }
     return { clause : result, values : values };
@@ -24,12 +27,21 @@ function hashToClause(hash, separator) {
 
 
 function insert(table, values, callback) {
+
     // On construit la requête dynamiquement
-    var q = 'INSERT INTO ' + table + ' SET ';
+    var q = 'INSERT INTO ' + table + '(id,';
+
     var clause = hashToClause(values, ', ');
-    q += clause.clause + ';';
+
+     console.log("affichage de values");
+        console.log(values);
+ console.log("affichage de clause");
+    console.log(clause);
+    q += clause.clause + ') VALUES (""'+',\'' + values.email +'\',\''+values.login+'\',\''+values.passwordhashed+'\')';
     // On envoie la reqûete avec le callback fourni.
     // Les paramètres dans clause.values sont automatiquement échappés.
+    console.log("affichage de q");
+    console.log(q);
     connection.query(q, clause.values, callback);
 }
 

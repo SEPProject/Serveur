@@ -40,7 +40,7 @@ function dataCallback(res) {
 }
 
 app.get('/user', function (req, res) {
-
+        console.log(req.body);
     console.log("salut");
 	data.getuser(req.body, dataCallback(res));
 });
@@ -50,10 +50,13 @@ app.post('/user', function(req, res) {
 	data.adduser(req.body, dataCallback(res));
 });
 app.put('/user', function(req, res) {
+    console.log(req.body);
 	data.updateuser(req.params.id, req.body, dataCallback(res));
 });
 
 app.delete('/user', function(req, res) {
+    console.log(req.body);
+
 	data.updateuser(req.params.id, dataCallback(res));
 });
 
