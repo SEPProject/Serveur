@@ -16,7 +16,8 @@ function checkColumns(obj) {
 }
 
 exports.getuser = function(id, callback) {
-    db.find('user_table', id, callback);
+    console.log(id.id);
+    db.find('`sepdb_database`.`user_table`', id.id, callback);
 }
 
 exports.adduser = function(values, callback) {
@@ -30,13 +31,14 @@ exports.adduser = function(values, callback) {
 
 exports.updateuser = function(id, values, callback) {
     if (checkColumns(values)) {
-        db.updateById('user_table', id, values, callback);
+    console.log(values);
+        db.updateById('`sepdb_database`.`user_table`', id, values, callback);
     } else {
         callback('Invalid column name', null);
     }
 }
 exports.removeuser = function(id, callback) {
-    db.removeById('user_table',id,callback);
+    db.removeById('`sepdb_database`.`user_table`',id,callback);
 }
 
 exports.getappletdone = function(id, callback) {

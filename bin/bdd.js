@@ -50,6 +50,7 @@ function remove(table, where, callback) {
     var q = 'DELETE FROM ' + table + ' WHERE ';
     var clause = hashToClause(where, ' AND ');
     q += clause.clause;
+    console.log(q);
     connection.query(q, clause.values, callback);
 }
 
@@ -57,18 +58,20 @@ function read(table, where, columns, callback) {
     var columnsClause = (columns ? columns.join(', ') : '*');
     var q = 'SELECT ' + columnsClause + ' FROM ' + table;
     if (where) {
+
         var clause = hashToClause(where, ' AND ');
-        q += ' WHERE ' + clause.clause;
+        q += ' WHERE ' + clause.clause +'='+ where.id;
     }
     connection.query(q, (where ? clause.values : callback), callback);
 }
 
 
 function update(table, where, values, callback) {
-    var whereClause = hashToClause(where, ' AND ');
-    var valuesClause = hashToClause(values, ' AND ');
-    var q = 'UPDATE ' + table + ' SET ' + valuesClause.clause + ' WHERE ' +
-        whereClause.clause + ';';
+ var whereClause = hashToClause(where, ' AND ');
+var valuesClause = hashToClause(values, ' AND ');
+    var q = 'UPDATE ' + table + ' SET ' +'`email`'+'=\''+ values.email+ '\' ,`login`'+'=\''+ values.login +'\' ,`passwordhashed`'+'=\''+ values.passwordhashed + '\' WHERE ' +
+        '`id`'+'=\''+ values.id + '\';';
+        console.log(q);
     connection.query(q, whereClause.values.concat(valuesClause.values), callback);
 }
 
@@ -76,10 +79,12 @@ exports.insert = insert;
 exports.remove = remove;
 exports.read = read;
 exports.update = update;
+exports.hashToClause;
 
 // On peut simplifier les opérations courantes (liste, modification via
 // l'id, etc.) avec les fonctions suivantes.
 exports.updateById = function(table, id, values, callback) {
+
     update(table, { 'id' : id }, values, callback);
 }
  

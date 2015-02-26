@@ -38,17 +38,20 @@ function dataCallback(res) {
         }
     }
 }
-
+//Fonction par id ! renvoie [{"id":45,"email":"salut","login":"bozo","passwordhashed":"guizmo","showEmail":n
 app.get('/user', function (req, res) {
-        console.log(req.body);
+    console.log(req.body);
     console.log("salut");
 	data.getuser(req.body, dataCallback(res));
 });
 
+
+//fonctionne ajoute l'utilisateur dans la db (voir pour le retour)
 app.post('/user', function(req, res) {
     console.log(req.body);
 	data.adduser(req.body, dataCallback(res));
 });
+//Modification fonctionne
 app.put('/user', function(req, res) {
     console.log(req.body);
 	data.updateuser(req.params.id, req.body, dataCallback(res));
@@ -57,8 +60,16 @@ app.put('/user', function(req, res) {
 app.delete('/user', function(req, res) {
     console.log(req.body);
 
-	data.updateuser(req.params.id, dataCallback(res));
+	data.removeuser(req.params.id, dataCallback(res));
 });
+
+//Fonction renvoie tous les utilisateurs présents dans la db
+app.get('/user/action', function (req, res) {
+        console.log(req.body);
+    console.log("salut");
+	data.getuser(req.body, dataCallback(res));
+});
+
 
 
 app.get('/applet/done', function(req, res) {
