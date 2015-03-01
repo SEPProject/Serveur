@@ -23,14 +23,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+var setHeader = function(res){
+	res.header('Access-Control-Allow-Origin', '*');
+	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+	res.header('Access-Control-Allow-Headers', 'Content-Type');
+}
 
 
 // Listen to port 3000 
 server.listen(3000);
 function dataCallback(res) {
     return function(err, data) {
-        if (err) {
-            res.send({error : err});
+		if (err) {
+			res.send({error : err});
         } else {
 			// Il serait intéressant de fournir une réponse plus lisible en
 			// cas de mise à jour ou d'insertion...
@@ -45,21 +50,22 @@ app.get('/user', function (req, res) {
 	data.getuser(req.body, dataCallback(res));
 });
 
-
 //fonctionne ajoute l'utilisateur dans la db (voir pour le retour)
 app.post('/user', function(req, res) {
     console.log(req.body);
+	setHeader(res);
 	data.adduser(req.body, dataCallback(res));
 });
 //Modification fonctionne
 app.put('/user', function(req, res) {
     console.log(req.body);
+	setHeader(res);
 	data.updateuser(req.params.id, req.body, dataCallback(res));
 });
 
 app.delete('/user', function(req, res) {
     console.log(req.body);
-
+	setHeader(res);
 	data.removeuser(req.params.id, dataCallback(res));
 });
 
@@ -67,28 +73,34 @@ app.delete('/user', function(req, res) {
 app.get('/user/action', function (req, res) {
         console.log(req.body);
     console.log("salut");
+	setHeader(res);
 	data.getuser(req.body, dataCallback(res));
 });
 
 
 
 app.get('/applet/done', function(req, res) {
+	setHeader(res);
 	data.getappletdone(req.params.id, dataCallback(res));
 });
 
 app.get('/applet', function(req, res) {
+	setHeader(res);
 	data.getapplet(dataCallback(res));
 });
 
 app.delete('/applet', function(req, res) {
+	setHeader(res);
 	data.deleteapplet(req.params.id, dataCallback(res));
 });
 
 app.post('/applet', function(req, res) {
+	setHeader(res);
 	data.createapplet(req.body, dataCallback(res));
 });
 
 app.put('/applet', function(req, res) {
+	setHeader(res);
 	data.updateapplet(req.params.id, req.body, dataCallback(res));
 });
 
@@ -99,22 +111,43 @@ app.put('/applet', function(req, res) {
 
 
 app.get('/domain', function(req, res) {
+	setHeader(res);
 	data.getdomain(dataCallback(res));
 });
 
 app.delete('/domain', function(req, res) {
+	setHeader(res);
 	data.deletedomain(req.params.id, dataCallback(res));
 });
 
 app.post('/domain', function(req, res) {
+	setHeader(res);
 	data.createdomain(req.body, dataCallback(res));
 });
 
 app.put('/domain', function(req, res) {
+	setHeader(res);
 	data.updatedomain(req.params.id, req.body, dataCallback(res));
 });
 
 
 
+app.options('/applet',function(req,res,next){
+	setHeader(res);
+	next();
+});
 
+app.options('/user/action',function(req,res,next){
+	setHeader(res);
+	next();
+});
 
+app.options('/domain',function(req,res,next){
+	setHeader(res);
+	next();
+});
+
+app.options('/user',function(req,res,next){
+	setHeader(res);
+	next();
+});
