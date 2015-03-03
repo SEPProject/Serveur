@@ -24,6 +24,7 @@ exports.adduser = function(values, callback) {
     if (checkColumns(values)) {
         db.insert('`sepdb_database`.`user_table`', values, callback);
 
+
     } else {
         callback('Invalid column name', null);
     }
@@ -31,7 +32,7 @@ exports.adduser = function(values, callback) {
 
 exports.updateuser = function(id, values, callback) {
     if (checkColumns(values)) {
-    console.log(values);
+        console.log(values);
         db.updateById('`sepdb_database`.`user_table`', id, values, callback);
     } else {
         callback('Invalid column name', null);

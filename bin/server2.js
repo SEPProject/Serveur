@@ -35,10 +35,14 @@ server.listen(3000);
 function dataCallback(res) {
     return function(err, data) {
 		if (err) {
+			res.statusCode=500;
+
 			res.send({error : err});
+
         } else {
 			// Il serait intéressant de fournir une réponse plus lisible en
 			// cas de mise à jour ou d'insertion...
+			console.log(data);
             res.send(data);
         }
     }
@@ -47,14 +51,19 @@ function dataCallback(res) {
 app.get('/user', function (req, res) {
     console.log(req.body);
     console.log("salut");
+
 	data.getuser(req.body, dataCallback(res));
 });
 
 //fonctionne ajoute l'utilisateur dans la db (voir pour le retour)
 app.post('/user', function(req, res) {
-    console.log(req.body);
 	setHeader(res);
-	data.adduser(req.body, dataCallback(res));
+
+    console.log(req.body);
+	console.log(res);
+	data.adduser(req.bod, dataCallback(res));
+	//console.log(res);
+
 });
 //Modification fonctionne
 app.put('/user', function(req, res) {
