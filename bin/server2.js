@@ -36,46 +36,77 @@ function dataCallback(res) {
     return function(err, data) {
 		if (err) {
 			res.statusCode=500;
-
 			res.send({error : err});
 
         } else {
 			// Il serait intéressant de fournir une réponse plus lisible en
 			// cas de mise à jour ou d'insertion...
-			console.log(data);
-            res.send(data);
-        }
+
+            if (data.insertId != 0){
+                res.send("insertId : " + data.insertId + "\n");
+            }else{
+                res.send(data);
+
+            }
+            //res.status(status).send("insertId : " + data.insertId + "\n");
+            }
     }
 }
 //Fonction par id ! renvoie [{"id":45,"email":"salut","login":"bozo","passwordhashed":"guizmo","showEmail":n
-app.get('/user', function (req, res) {
-    console.log(req.body);
-    console.log("salut");
+app.get('/user', function (req, res, err) {
 
-	data.getuser(req.body, dataCallback(res));
+    	if ('undefined' == typeof req.body.id) {
+    		res.statusCode=400;
+    		res.send({error : "Pas d'ID envoyé " });
+    	}
+    	else {
+	        data.getuser(req.body, dataCallback(res));
+    	}
 });
 
 //fonctionne ajoute l'utilisateur dans la db (voir pour le retour)
 app.post('/user', function(req, res) {
 	setHeader(res);
+	if ('undefined' == typeof req.body.email || 'undefined' == typeof req.body.login || 'undefined' == typeof req.body.passwordhashed) {
+    			res.statusCode=400;
+    			res.send({error : "pas les bons paramètres envoyés "});
+    	}
+    	else {
 
-    console.log(req.body);
-	console.log(res);
-	data.adduser(req.bod, dataCallback(res));
+	        data.adduser(req.body, dataCallback(res));
+	        console.log("affiche res.data");
+	        //console.log(res);
+    	}
 	//console.log(res);
 
 });
 //Modification fonctionne
-app.put('/user', function(req, res) {
-    console.log(req.body);
+app.put('/user', function(req, res, err) {
+    console.log(req.body.id);
 	setHeader(res);
-	data.updateuser(req.params.id, req.body, dataCallback(res));
+	if ('undefined' == typeof req.body.id) {
+
+			res.statusCode=400;
+			res.send({error : "pas le bon id envoyé  "});
+
+	}
+	else {
+         	data.updateuser(req.params.id, req.body, dataCallback(res));
+	}
 });
 
 app.delete('/user', function(req, res) {
-    console.log(req.body);
+
 	setHeader(res);
-	data.removeuser(req.params.id, dataCallback(res));
+		if ('undefined' == typeof req.body.id) {
+
+    			res.statusCode=400;
+    			res.send({error : "pas le bon id envoyé  "});
+
+    	}
+    	else {
+	            data.removeuser(req.params.id, dataCallback(res));
+    	}
 });
 
 //Fonction renvoie tous les utilisateurs présents dans la db

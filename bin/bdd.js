@@ -29,7 +29,7 @@ function hashToClause(hash, separator) {
 function insert(table, values, callback) {
 
     // On construit la requête dynamiquement
-    var q = 'INSERT INTO ' + table + '(id,';
+    var q = 'INSERT INTO ' + table + '(';
 
     var clause = hashToClause(values, ', ');
     console.log("valeur de clause");
@@ -37,13 +37,13 @@ function insert(table, values, callback) {
     if(clause.clause == "email, login, passwordhashed"){
 
 
-    q += clause.clause + ') VALUES (""'+',\'' + values.email +'\',\''+values.login+'\',\''+values.passwordhashed+'\')';
+    q += clause.clause + ') VALUES (\'' + values.email +'\',\''+values.login+'\',\''+values.passwordhashed+'\')';
     // On envoie la reqûete avec le callback fourni.
     // Les paramètres dans clause.values sont automatiquement échappés.
     console.log(q);
     var query = connection.query(q, clause.values, callback);
 
-    	console.log(query.sql);
+
     }else{
     connection.query(q, clause.values, callback);
 
