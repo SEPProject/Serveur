@@ -39,6 +39,7 @@ exports.updateuser = function(id, values, callback) {
     }
 }
 exports.removeuser = function(id, callback) {
+
     db.removeById('`sepdb_database`.`user_table`',id,callback);
 }
 

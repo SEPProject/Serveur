@@ -43,7 +43,7 @@ function dataCallback(res) {
 			// cas de mise à jour ou d'insertion...
 
             if (data.insertId != 0){
-                res.send("insertId : " + data.insertId + "\n");
+                res.send("id : " + data.insertId + "\n");
             }else{
                 res.send(data);
 
@@ -99,13 +99,12 @@ app.delete('/user', function(req, res) {
 
 	setHeader(res);
 		if ('undefined' == typeof req.body.id) {
-
-    			res.statusCode=400;
+				res.statusCode=400;
     			res.send({error : "pas le bon id envoyé  "});
 
     	}
     	else {
-	            data.removeuser(req.params.id, dataCallback(res));
+	            data.removeuser(req.body.id, dataCallback(res));
     	}
 });
 

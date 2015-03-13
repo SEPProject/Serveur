@@ -55,9 +55,18 @@ function insert(table, values, callback) {
 function remove(table, where, callback) {
     var q = 'DELETE FROM ' + table + ' WHERE ';
     var clause = hashToClause(where, ' AND ');
-    q += clause.clause;
-    console.log(q);
-    connection.query(q, clause.values, callback);
+    console.log(clause);
+    if(clause.clause == "id"){
+        q += '`' + clause.clause + '` = ' + where.id;
+        console.log(q);
+        connection.query(q, clause.values, callback);
+
+    }
+    else{
+        q = NULL;
+        connection.query(q, clause.values, callback);
+
+    }
 }
 
 function read(table, where, columns, callback) {
@@ -100,7 +109,9 @@ exports.find = function(table, id, callback) {
 }
  
 exports.removeById = function(table, id, callback) {
+
     remove(table, { 'id' : id }, callback);
+
 }
  
 exports.findAll = function(table, callback) {
