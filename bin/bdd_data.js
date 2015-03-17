@@ -95,3 +95,12 @@ exports.updatedomain = function(id, values, callback) {
         callback('Invalid column name', null);
     }
 }
+
+exports.connect = function(values, callback){
+    if (checkColumns(values)) {
+        console.log(values.login);
+        db.connexion(values.login ,values.email,values.passwordhashed, callback);
+    }else {
+        callback('Invalid column name', null);
+    }
+}

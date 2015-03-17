@@ -118,6 +118,21 @@ exports.findAll = function(table, callback) {
     read(table, null, null, callback);
 }
 
+exports.connexion = function(login,email,passwordhashed, callback){
+            connection.query('SELECT id FROM `sepdb_database`.`user_table` WHERE login="'+login+'" AND passwordhashed="'+passwordhashed+'" AND email="'+email+'"',callback);
+         /*   execute(function(error, rows, cols) {
+                    if (error) {
+                        console.log('ERROR: ' + error);
+                        return;
+                    }
+                    if(rows.length == 1){ // Le compte existe
+                            console.log("alors la tu te connectes");
+                        }
+                        });*/
+
+
+
+}
 /*Connecting to Database*/
 
 connection.connect(function(error){

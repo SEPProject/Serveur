@@ -42,16 +42,45 @@ function dataCallback(res) {
 			// Il serait intéressant de fournir une réponse plus lisible en
 			// cas de mise à jour ou d'insertion...
 
-            if (data.insertId != 0){
-                res.send("id : " + data.insertId + "\n");
+            if (data.insertId != 0 && 'undefined' != typeof data.insertId){
+
+                console.log("ou la ? ");
+                res.send("{id   :"+data.insertId+"}");
             }else{
+                console.log("tu passes la ? ");
                 res.send(data);
 
             }
             //res.status(status).send("insertId : " + data.insertId + "\n");
             }
+
     }
 }
+
+function dataExecute(res) {
+    return function(err, data) {
+		if (err) {
+			res.statusCode=500;
+			res.send({error : err});
+
+        } else {
+			// Il serait intéressant de fournir une réponse plus lisible en
+			// cas de mise à jour ou d'insertion...
+
+            if (data.length != 0  ){
+
+                console.log("tu passes dans cette merde ou la ? ");
+                res.send(data);
+            }else{
+                res.statusCode=400;
+                res.send("Erreur de login, d'email ou de mot de passe")
+            }
+            //res.status(status).send("insertId : " + data.insertId + "\n");
+            }
+
+    }
+}
+
 //Fonction par id ! renvoie [{"id":45,"email":"salut","login":"bozo","passwordhashed":"guizmo","showEmail":n
 app.get('/user', function (req, res, err) {
 
@@ -107,7 +136,7 @@ app.delete('/user', function(req, res) {
 	            data.removeuser(req.body.id, dataCallback(res));
     	}
 });
-
+//----------------/USER/ACTION-------------------//
 //Fonction renvoie tous les utilisateurs présents dans la db
 app.get('/user/action', function (req, res) {
         console.log(req.body);
@@ -116,6 +145,12 @@ app.get('/user/action', function (req, res) {
 	data.getuser(req.body, dataCallback(res));
 });
 
+
+app.post('/user/action',function(req,res){
+    console.log(req.body.login);
+
+    data.connect(req.body, dataExecute(res));
+});
 
 
 app.get('/applet/done', function(req, res) {
@@ -135,7 +170,7 @@ app.delete('/applet', function(req, res) {
 
 app.post('/applet', function(req, res) {
 	setHeader(res);
-	data.createapplet(req.body, dataCallback(res));
+	data.createapplet(req.params.id, req.body, dataCallback(res));
 });
 
 app.put('/applet', function(req, res) {
