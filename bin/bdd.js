@@ -118,8 +118,8 @@ exports.findAll = function(table, callback) {
     read(table, null, null, callback);
 }
 
-exports.connexion = function(login,email,passwordhashed, callback){
-            connection.query('SELECT id FROM `sepdb_database`.`user_table` WHERE login="'+login+'" AND passwordhashed="'+passwordhashed+'" AND email="'+email+'"',callback);
+exports.connexion = function(login,passwordhashed, callback){
+            connection.query('SELECT id FROM `sepdb_database`.`user_table` WHERE (login="'+login+'" AND passwordhashed="'+passwordhashed+'") OR (email="'+login+'"AND passwordhashed="'+passwordhashed+'")',callback);
          /*   execute(function(error, rows, cols) {
                     if (error) {
                         console.log('ERROR: ' + error);

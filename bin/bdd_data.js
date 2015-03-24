@@ -47,8 +47,8 @@ exports.getappletdone = function(id, callback) {
     db.find('applet_table', id, callback);
 }
 
-exports.getapplet = function(callback) {
-    db.findall('applet_table', callback);
+exports.getapplet = function(id, callback) {
+    db.find('`sepdb_database`.`applet_table`',id.id, callback);
 }
 
 exports.deleteapplet = function(id, callback) {
@@ -57,7 +57,7 @@ exports.deleteapplet = function(id, callback) {
 
 exports.createapplet = function(values, callback) {
     if (checkColumns(values)) {
-        db.insert('applet_table', values, callback);
+        db.insert('`sepdb_database`.`applet_table`', values, callback);
     } else {
         callback('Invalid column name', null);
     }
@@ -97,9 +97,10 @@ exports.updatedomain = function(id, values, callback) {
 }
 
 exports.connect = function(values, callback){
+    console.log(values);
     if (checkColumns(values)) {
         console.log(values.login);
-        db.connexion(values.login ,values.email,values.passwordhashed, callback);
+        db.connexion(values.login, values.passwordhashed, callback);
     }else {
         callback('Invalid column name', null);
     }

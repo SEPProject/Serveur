@@ -11,6 +11,16 @@ var bodyParser = require('body-parser');
 var http = require("http");
 var server = http.createServer(app)
 
+//ROUTES
+
+
+//require('./routes/route-user.js')(app);
+
+
+
+
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -44,10 +54,8 @@ function dataCallback(res) {
 
             if (data.insertId != 0 && 'undefined' != typeof data.insertId){
 
-                console.log("ou la ? ");
-                res.send("{id   :"+data.insertId+"}");
+                res.json({id : data.insertId});
             }else{
-                console.log("tu passes la ? ");
                 res.send(data);
 
             }
@@ -69,11 +77,9 @@ function dataExecute(res) {
 
             if (data.length != 0  ){
 
-                console.log("tu passes dans cette merde ou la ? ");
-                res.send(data);
+                res.json(data);
             }else{
                 res.statusCode=400;
-                res.send("Erreur de login, d'email ou de mot de passe")
             }
             //res.status(status).send("insertId : " + data.insertId + "\n");
             }
@@ -81,21 +87,9 @@ function dataExecute(res) {
     }
 }
 
-//Fonction par id ! renvoie [{"id":45,"email":"salut","login":"bozo","passwordhashed":"guizmo","showEmail":n
-app.get('/user', function (req, res, err) {
-
-    	if ('undefined' == typeof req.body.id) {
-    		res.statusCode=400;
-    		res.send({error : "Pas d'ID envoyé " });
-    	}
-    	else {
-	        data.getuser(req.body, dataCallback(res));
-    	}
-});
-
-//fonctionne ajoute l'utilisateur dans la db (voir pour le retour)
 app.post('/user', function(req, res) {
 	setHeader(res);
+	console.log(req.body);
 	if ('undefined' == typeof req.body.email || 'undefined' == typeof req.body.login || 'undefined' == typeof req.body.passwordhashed) {
     			res.statusCode=400;
     			res.send({error : "pas les bons paramètres envoyés "});
@@ -103,13 +97,13 @@ app.post('/user', function(req, res) {
     	else {
 
 	        data.adduser(req.body, dataCallback(res));
-	        console.log("affiche res.data");
 	        //console.log(res);
     	}
 	//console.log(res);
+	console.log("coucou");
 
 });
-//Modification fonctionne
+
 app.put('/user', function(req, res, err) {
     console.log(req.body.id);
 	setHeader(res);
@@ -136,22 +130,39 @@ app.delete('/user', function(req, res) {
 	            data.removeuser(req.body.id, dataCallback(res));
     	}
 });
+
+
+app.options('/user',function(req,res,next){
+	setHeader(res);
+	next();
+});
+
+
 //----------------/USER/ACTION-------------------//
 //Fonction renvoie tous les utilisateurs présents dans la db
 app.get('/user/action', function (req, res) {
-        console.log(req.body);
+    console.log(req.body);
     console.log("salut");
 	setHeader(res);
 	data.getuser(req.body, dataCallback(res));
 });
 
-
 app.post('/user/action',function(req,res){
-    console.log(req.body.login);
+    setHeader(res);
+    	if (('undefined' == typeof req.body.email && 'undefined' == typeof req.body.login) || 'undefined' == typeof req.body.passwordhashed) {
+        			res.statusCode=400;
+        			res.send({error : "pas les bons paramètres envoyés "});
+        	}
+        	else {
 
-    data.connect(req.body, dataExecute(res));
+                    data.connect(req.body, dataExecute(res));
+    	        //console.log(res);
+        	}
+
 });
 
+
+//---------------APPLET------------------//
 
 app.get('/applet/done', function(req, res) {
 	setHeader(res);
@@ -159,8 +170,11 @@ app.get('/applet/done', function(req, res) {
 });
 
 app.get('/applet', function(req, res) {
-	setHeader(res);
-	data.getapplet(dataCallback(res));
+
+
+	        data.getapplet(req.body, dataCallback(res));
+
+
 });
 
 app.delete('/applet', function(req, res) {
@@ -221,7 +235,10 @@ app.options('/domain',function(req,res,next){
 	next();
 });
 
-app.options('/user',function(req,res,next){
+
+
+
+app.options('/applet/done',function(req,res,next){
 	setHeader(res);
 	next();
 });
