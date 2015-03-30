@@ -119,7 +119,7 @@ exports.findAll = function(table, callback) {
 }
 
 exports.connexion = function(login,passwordhashed, callback){
-            connection.query('SELECT id FROM `sepdb_database`.`user_table` WHERE (login="'+login+'" AND passwordhashed="'+passwordhashed+'") OR (email="'+login+'"AND passwordhashed="'+passwordhashed+'")',callback);
+    connection.query('SELECT id FROM `sepdb_database`.`user_table` WHERE (login="'+login+'" AND passwordhashed="'+passwordhashed+'") OR (email="'+login+'"AND passwordhashed="'+passwordhashed+'")',callback);
          /*   execute(function(error, rows, cols) {
                     if (error) {
                         console.log('ERROR: ' + error);
@@ -129,9 +129,6 @@ exports.connexion = function(login,passwordhashed, callback){
                             console.log("alors la tu te connectes");
                         }
                         });*/
-
-
-
 }
 /*Connecting to Database*/
 

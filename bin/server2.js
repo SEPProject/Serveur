@@ -1,5 +1,6 @@
 var data = require('./bdd_data.js');
 var express = require("express");
+var token_table = require('./token_table.js');
 var app = express();
 
 var path = require('path');
@@ -54,7 +55,14 @@ function dataCallback(res) {
 
             if (data.insertId != 0 && 'undefined' != typeof data.insertId){
 
-                res.json({id : data.insertId});
+				token_table.add_token({id : data.insertId});
+				var tokenToSend = token_table.find_token_from_id(data.insertId);
+				if(tokenToSend != -1){
+					res.json({id : data.insertId,token : token_table.find_token_from_id(data.insertId)});
+				}else{
+					res.statusCode=500;
+					res.send({error : data});
+				}
             }else{
                 res.send(data);
 
@@ -76,10 +84,14 @@ function dataExecute(res) {
 			// cas de mise à jour ou d'insertion...
 
             if (data.length != 0  ){
-
-                res.json(data);
+				console.log("data"+data);
+               // res.json(data);
+				res.json({"token":"123"});
             }else{
-                res.statusCode=400;
+				token_table.add_token({id:"1"});
+				console.log("pas ok");
+				res.statusCode=400;
+				res.send({error : err});
             }
             //res.status(status).send("insertId : " + data.insertId + "\n");
             }
@@ -152,7 +164,7 @@ app.post('/user/action',function(req,res){
     	if (('undefined' == typeof req.body.email && 'undefined' == typeof req.body.login) || 'undefined' == typeof req.body.passwordhashed) {
         			res.statusCode=400;
         			res.send({error : "pas les bons paramètres envoyés "});
-        	}
+		}
         	else {
 
                     data.connect(req.body, dataExecute(res));

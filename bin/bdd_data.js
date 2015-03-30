@@ -97,9 +97,9 @@ exports.updatedomain = function(id, values, callback) {
 }
 
 exports.connect = function(values, callback){
-    console.log(values);
+    //console.log(values);
     if (checkColumns(values)) {
-        console.log(values.login);
+       // console.log(values.login);
         db.connexion(values.login, values.passwordhashed, callback);
     }else {
         callback('Invalid column name', null);
