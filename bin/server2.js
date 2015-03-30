@@ -86,10 +86,17 @@ function dataExecute(res) {
             if (data.length != 0  ){
 				console.log("data"+data);
                // res.json(data);
-				res.json({"token":"123"});
+				token_table.add_token(data.id);//METTRE LE BON ID DE CONNEXION
+				var tokenToSend = token_table.find_token_from_id(data.insertId);
+
+				if(tokenToSend != -1){
+					res.json({token : token_table.find_token_from_id(data.insertId)});
+				}else{
+					res.statusCode=500;
+					res.send({error : data});
+				}
+
             }else{
-				token_table.add_token({id:"1"});
-				console.log("pas ok");
 				res.statusCode=400;
 				res.send({error : err});
             }
