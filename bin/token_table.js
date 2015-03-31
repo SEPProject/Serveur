@@ -7,6 +7,7 @@ var existing_token = [];
     var newToken = 0;
     var exist = false;
 
+     this.delete_old_token();
     while(newToken == 0 || exist == true){
         for(var i in existing_token){
             if(existing_token[i].token == newToken){
@@ -21,7 +22,7 @@ var existing_token = [];
 };
 
 exports.delete_old_token = function (){
-    var newExistingToken = [{}];
+    var newExistingToken = [];
     var d = new Date();
     var timeMaxConnexion = 300000;//en milliseconde
     for(var i in existing_token){
@@ -33,8 +34,8 @@ exports.delete_old_token = function (){
     console.log(existing_token+"les tens");
 };
 exports.delete_token = function(token){
-    var newExistingToken = [{}];
-    var d = new Date();
+    this.delete_old_token();
+    var newExistingToken = [];
     for(var i in existing_token){
         if(!(token == existing_token[i].token)){
             newExistingToken.push(existing_token[i]);
@@ -45,10 +46,21 @@ exports.delete_token = function(token){
 };
 
 exports.find_token_from_id = function(id){
+    this.delete_old_token();
     for(var i in existing_token){
         if((id == existing_token[i].id)){
             return existing_token[i].token;
         }
     }
     return -1;
+};
+
+exports.update_token = function(token){
+    this.delete_old_token();
+    var d = new Date();
+    for(var i in existing_token){
+        if((token == existing_token[i].token)){
+            existing_token[i].time = d.getTime();
+        }
+    }
 };
