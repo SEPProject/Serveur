@@ -55,10 +55,9 @@ function dataCallback(res) {
 
             if (data.insertId != 0 && 'undefined' != typeof data.insertId){
 
-				token_table.add_token({id : data.insertId});
-				var tokenToSend = token_table.find_token_from_id(data.insertId);
+				var tokenToSend = token_table.add_token({id : data.insertId});
 				if(tokenToSend != -1){
-					res.json({id : data.insertId,token : token_table.find_token_from_id(data.insertId)});
+					res.json({id : data.insertId,token : tokenToSend});
 				}else{
 					res.statusCode=500;
 					res.send({error : data});
@@ -86,11 +85,10 @@ function dataExecute(res) {
             if (data.length != 0  ){
 				console.log("data"+data);
                // res.json(data);
-				token_table.add_token(data.id);//METTRE LE BON ID DE CONNEXION
-				var tokenToSend = token_table.find_token_from_id(data.insertId);
+				var tokenToSend = token_table.add_token(data.id);//METTRE LE BON ID DE CONNEXION
 
 				if(tokenToSend != -1){
-					res.json({token : token_table.find_token_from_id(data.insertId)});
+					res.json({token : tokenToSend});
 				}else{
 					res.statusCode=500;
 					res.send({error : data});

@@ -19,6 +19,7 @@ var existing_token = [];
     var d = new Date();
     existing_token.push({"id":data.id,"token":newToken,"time": d.getTime()});
     console.log(JSON.stringify(existing_token)+"les ");
+     return newToken;
 };
 
 exports.delete_old_token = function (){
