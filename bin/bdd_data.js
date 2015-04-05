@@ -52,7 +52,8 @@ exports.getapplet = function(callback) {
 }
 
 exports.deleteapplet = function(id, callback) {
-    db.removeById('`sepdb_database`.`applet_table`',id, callback);
+
+    db.removeapplet('`sepdb_database`.`applet_table`',id, callback);
 }
 
 exports.createapplet = function(name,domain, values, callback) {

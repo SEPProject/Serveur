@@ -245,7 +245,7 @@ function datadeleteapp(res) {
 
         } else {
 
-            res.json({name : data[0].name,id : data[0].id});
+            res.json({message : "Suppression réussi ! "});
             }
 
     }
@@ -259,8 +259,8 @@ app.delete('/applet', function(req, res) {
                 res.send({error : "pas les bons paramètres envoyés "});
         		}
                 else {
-                    console.log(req.params.id);
-	                data.deleteapplet(req.params.id, datadeleteapp(res));
+                    console.log(req.body.id);
+	                data.deleteapplet(req.body.id, datadeleteapp(res));
             	}
 });
 function datacreateapp(res) {

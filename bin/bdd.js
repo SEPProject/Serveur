@@ -137,7 +137,26 @@ exports.removeById = function(table, id, callback) {
     remove(table, { 'id' : id }, callback);
 
 }
- 
+
+exports.removeapplet = function(table, id, callback) {
+    /*var qtest = 'SELECT * FROM ' + table + 'WHERE id=' + id;
+    var querytest =  connection.query(qtest, function(err, rows) {
+      if (!err){
+      if (rows == []){
+            console.log("essai");*/
+            var q = 'DELETE FROM ' + table + ' WHERE ';
+            q +='`' + 'id' + '` = ' + id;
+            var query = connection.query(q, callback);
+
+     /* else
+            res.json({message : "pas supprimé l'id de cet applet n'existe pas ! "});
+      }
+*/
+    }
+
+
+
+
 exports.findAll = function(table, callback) {
     read(table, null, null, callback);
 }
