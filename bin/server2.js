@@ -278,7 +278,7 @@ function datacreateapp(res) {
 }
 app.post('/applet', function(req, res) {
 	setHeader(res);
-		if (('undefined' == typeof req.body.name) && ('undefined' == typeof req.body.domain)){
+		if (('undefined' == typeof req.body.name) || ('undefined' == typeof req.body.domain)){
 
                     res.statusCode=400;
                     res.send({error : "pas les bons paramètres envoyés "});
@@ -292,9 +292,31 @@ app.post('/applet', function(req, res) {
 
 });
 
+function dataupapp(res) {
+    return function(err, data) {
+		if (err) {
+			res.statusCode=500;
+			res.send({error : err});
+
+        } else {
+
+            res.json({message : "mise a jour réussi ! "});
+            }
+
+    }
+}
+
 app.put('/applet', function(req, res) {
 	setHeader(res);
-	data.updateapplet(req.params.id, req.body, dataCallback(res));
+	if (('undefined' == typeof req.body.name) || ('undefined' == typeof req.body.domain)|| ('undefined' == typeof req.body.id) ){
+
+                        res.statusCode=400;
+                        res.send({error : "pas les bons paramètres envoyés "});
+                		}
+                        else {
+
+	                        data.updateapplet(req.body.id, req.body.name , req.body.domain ,req.body,  dataupapp(res));
+                    	}
 });
 
 

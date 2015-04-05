@@ -155,7 +155,13 @@ exports.removeapplet = function(table, id, callback) {
     }
 
 
+exports.updateapp = function (table, id, name,domain, callback) {
+                        var q = 'UPDATE ' + table + ' SET ' +'`name`'+'=\''+ name+ '\' ,`domain`'+'='+ '(SELECT id FROM `sepdb_database`.`domain_table` WHERE name =\''+domain+'\')' + ' WHERE ' +
+                            '`id`'+'=\''+ id + '\';';
+                            console.log(q);
+                        connection.query(q, callback);
 
+                    }
 
 exports.findAll = function(table, callback) {
     read(table, null, null, callback);

@@ -66,9 +66,9 @@ exports.createapplet = function(name,domain, values, callback) {
     }
 }
 
-exports.updateapplet = function(id, values, callback) {
+exports.updateapplet = function(id,name, domain,values, callback) {
     if (checkColumns(values)) {
-        db.updateById('applet_table', id, values, callback);
+        db.updateapp('`sepdb_database`.`applet_table`', id, name,domain, callback);
     } else {
         callback('Invalid column name', null);
     }
