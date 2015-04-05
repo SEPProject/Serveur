@@ -221,3 +221,10 @@ exports.updatedom = function (table, id, name, callback) {
                         connection.query(q, callback);
 
                     }
+
+exports.appdone = function (id, callback) {
+                        var q = 'SELECT appletID FROM `sepdb_database`.`applet_done_by_user_table` WHERE userID = ' + id+ ' UNION SELECT name FROM `sepdb_database`.`applet_table` ;';
+                            console.log(q);
+                        connection.query(q, callback);
+
+                    }

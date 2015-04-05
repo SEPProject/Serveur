@@ -186,6 +186,7 @@ app.post('/user/action',function(req,res){
 //TODO Get applet done
 
 function dataAppletdone(res) {
+    console.log("et la ");
     return function(err, data) {
 		if (err) {
 			res.statusCode=500;
@@ -193,6 +194,7 @@ function dataAppletdone(res) {
 
         } else {
 
+             res.json(data);
 
             }
 
@@ -202,14 +204,13 @@ function dataAppletdone(res) {
 
 app.get('/applet/done', function(req, res) {
 	setHeader(res);
-	data.getappletdone(req.params.id, dataCallback(res));
 	if ('undefined' == typeof req.body.id){
 
             res.statusCode=400;
             res.send({error : "pas les bons paramètres envoyés "});
     		}
             else {
-                data.read(req.body.id, dataAppletdone(res));
+                data.appletdonebyid(req.body.id, req.body, dataAppletdone(res));
         	}
 
 
@@ -222,7 +223,6 @@ function dataAllApplet(res) {
 			res.send({error : err});
 
         } else {
-        //TODO a tester avec plusieurs applets dans la bdd (peut être faire une boucle for sur data.length)
             res.json({applets : data});
             }
 

@@ -108,3 +108,13 @@ exports.connect = function(values, callback){
         callback('Invalid column name', null);
     }
 }
+exports.appletdonebyid = function(id, values, callback){
+    //console.log(values);
+    if (checkColumns(values)) {
+       // console.log(values.login);
+        db.appdone(id, callback);
+        console.log("test son");
+    }else {
+        callback('Invalid column name', null);
+    }
+}
