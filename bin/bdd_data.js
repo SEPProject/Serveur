@@ -80,7 +80,7 @@ exports.getdomain = function(callback) {
 }
 
 exports.deletedomain = function(id, callback) {
-    db.removeById('domain_table',id, callback);
+    db.removedomain('`sepdb_database`.`domain_table`',id, callback);
 }
 
 exports.createdomain = function(name, values, callback) {

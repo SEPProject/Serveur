@@ -157,6 +157,7 @@ exports.removeapplet = function(table, id, callback) {
             console.log("essai");*/
             var q = 'DELETE FROM ' + table + ' WHERE ';
             q +='`' + 'id' + '` = ' + id;
+            console.log(q);
             var query = connection.query(q, callback);
 
      /* else
@@ -204,4 +205,12 @@ console.log("Connected with Database");
 });
 
 
+exports.removedomain = function(table, id, callback) {
+            console.log("essais ");
+            var q = 'DELETE FROM ' + table + ' WHERE ';
+            q +='`' + 'id' + '` = ' + id;
+            console.log(q);
+            var query = connection.query(q, callback);
 
+
+    }

@@ -351,9 +351,35 @@ app.get('/domain', function(req, res) {
                         	}
 });
 
+
+function datadeletedom(res) {
+    return function(err, data) {
+    console.log("test");
+
+		if (err) {
+			res.statusCode=500;
+			res.send({error : err});
+
+        } else {
+            console.log("test");
+            res.json({message : "Suppression réussi ! "});
+            }
+
+    }
+}
+
+
 app.delete('/domain', function(req, res) {
 	setHeader(res);
-	data.deletedomain(req.params.id, dataCallback(res));
+	if ('undefined' == typeof req.body.id){
+
+                    res.statusCode=400;
+                    res.send({error : "pas les bons paramètres envoyés "});
+            		}
+                    else {
+                        console.log(req.body.id);
+	                    data.deletedomain(req.body.id, datadeletedom(res));
+                	}
 });
 
 
