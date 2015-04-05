@@ -223,8 +223,7 @@ function dataAllApplet(res) {
 
         } else {
         //TODO a tester avec plusieurs applets dans la bdd (peut être faire une boucle for sur data.length)
-            console.log(data[0]);
-            res.json({name : data[0].name,id : data[0].id});
+            res.json({applets : data});
             }
 
     }
@@ -323,11 +322,33 @@ app.put('/applet', function(req, res) {
 
 
 
+function datagetdom(res) {
+    return function(err, data) {
+		if (err) {
+			res.statusCode=500;
+			res.send({error : err});
 
+        } else {
+
+                console.log(data[0]);
+                res.json({domaines : data });
+
+            }
+
+    }
+}
 
 app.get('/domain', function(req, res) {
 	setHeader(res);
-	data.getdomain(dataCallback(res));
+		if ( ('undefined' == typeof req.body.id) ){
+
+                            res.statusCode=400;
+                            res.send({error : "pas les bons paramètres envoyés "});
+                    		}
+                            else {
+
+	                            data.getdomain(datagetdom(res));
+                        	}
 });
 
 app.delete('/domain', function(req, res) {

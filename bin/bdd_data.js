@@ -76,7 +76,7 @@ exports.updateapplet = function(id,name, domain,values, callback) {
 
 
 exports.getdomain = function(callback) {
-    db.findall('domain_table', callback);
+    db.findAll('`sepdb_database`.`domain_table`', callback);
 }
 
 exports.deletedomain = function(id, callback) {
