@@ -214,3 +214,10 @@ exports.removedomain = function(table, id, callback) {
 
 
     }
+exports.updatedom = function (table, id, name, callback) {
+                        var q = 'UPDATE ' + table + ' SET ' +'`name`'+'=\''+ name+ '\'' + ' WHERE ' +
+                            '`id`'+'=\''+ id + '\';';
+                            console.log(q);
+                        connection.query(q, callback);
+
+                    }

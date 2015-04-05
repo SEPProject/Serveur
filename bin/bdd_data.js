@@ -91,9 +91,9 @@ exports.createdomain = function(name, values, callback) {
     }
 }
 
-exports.updatedomain = function(id, values, callback) {
+exports.updatedomain = function(id, name,  values, callback) {
     if (checkColumns(values)) {
-        db.updateById('domain_table', id, values, callback);
+        db.updatedom('`sepdb_database`.`domain_table`', id, name, callback);
     } else {
         callback('Invalid column name', null);
     }

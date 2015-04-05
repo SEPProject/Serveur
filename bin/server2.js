@@ -412,10 +412,30 @@ app.post('/domain', function(req, res) {
 	                                data.createdomain(req.body.name, req.body, datacreatedom(res));
                             	}
 });
+function dataupdom(res) {
+    return function(err, data) {
+		if (err) {
+			res.statusCode=500;
+			res.send({error : err});
 
+        } else {
+
+            res.json({message : "mise a jour réussi ! "});
+            }
+
+    }
+}
 app.put('/domain', function(req, res) {
-	setHeader(res);
-	data.updatedomain(req.params.id, req.body, dataCallback(res));
+    setHeader(res);
+    if (('undefined' == typeof req.body.name) || ('undefined' == typeof req.body.id) ){
+
+        res.statusCode=400;
+        res.send({error : "pas les bons paramètres envoyés "});
+        }
+        else {
+
+            data.updatedomain(req.body.id, req.body.name, req.body,  dataupdom(res));
+        }
 });
 
 
