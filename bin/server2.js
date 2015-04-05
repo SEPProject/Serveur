@@ -57,6 +57,7 @@ function dataCallback(res) {
 
 				var tokenToSend = token_table.add_token({id : data.insertId});
 				if(tokenToSend != -1){
+				    console.log(data);
 					res.json({id : data.insertId,token : tokenToSend});
 				}else{
 					res.statusCode=500;
@@ -105,6 +106,7 @@ function dataExecute(res) {
 }
 
 app.post('/user', function(req, res) {
+    console.log("test");
 	setHeader(res);
 	console.log(req.body);
 	if ('undefined' == typeof req.body.email || 'undefined' == typeof req.body.login || 'undefined' == typeof req.body.passwordhashed) {
@@ -181,27 +183,113 @@ app.post('/user/action',function(req,res){
 
 //---------------APPLET------------------//
 
+//TODO Get applet done
+
+function dataAppletdone(res) {
+    return function(err, data) {
+		if (err) {
+			res.statusCode=500;
+			res.send({error : err});
+
+        } else {
+
+
+            }
+
+    }
+}
+
+
 app.get('/applet/done', function(req, res) {
 	setHeader(res);
 	data.getappletdone(req.params.id, dataCallback(res));
+	if ('undefined' == typeof req.body.id){
+
+            res.statusCode=400;
+            res.send({error : "pas les bons paramètres envoyés "});
+    		}
+            else {
+                data.read(req.body.id, dataAppletdone(res));
+        	}
+
+
 });
 
+function dataAllApplet(res) {
+    return function(err, data) {
+		if (err) {
+			res.statusCode=500;
+			res.send({error : err});
+
+        } else {
+        //TODO a tester avec plusieurs applets dans la bdd (peut être faire une boucle for sur data.length)
+            console.log(data[0]);
+            res.json({name : data[0].name,id : data[0].id});
+            }
+
+    }
+}
 app.get('/applet', function(req, res) {
+            setHeader(res);
 
-
-	        data.getapplet(req.body, dataCallback(res));
+	        data.getapplet(/*req.body, (gestion du token)*/ dataAllApplet(res));
 
 
 });
+
+function datadeleteapp(res) {
+    return function(err, data) {
+		if (err) {
+			res.statusCode=500;
+			res.send({error : err});
+
+        } else {
+
+            res.json({name : data[0].name,id : data[0].id});
+            }
+
+    }
+}
 
 app.delete('/applet', function(req, res) {
 	setHeader(res);
-	data.deleteapplet(req.params.id, dataCallback(res));
-});
+	if ('undefined' == typeof req.body.id){
 
+                res.statusCode=400;
+                res.send({error : "pas les bons paramètres envoyés "});
+        		}
+                else {
+                    console.log(req.params.id);
+	                data.deleteapplet(req.params.id, datadeleteapp(res));
+            	}
+});
+function datacreateapp(res) {
+    return function(err, data) {
+		if (err) {
+			res.statusCode=500;
+			res.send({error : err});
+
+        } else {
+
+            res.json({id : data.insertId});
+            }
+
+    }
+}
 app.post('/applet', function(req, res) {
 	setHeader(res);
-	data.createapplet(req.params.id, req.body, dataCallback(res));
+		if (('undefined' == typeof req.body.name) && ('undefined' == typeof req.body.domain)){
+
+                    res.statusCode=400;
+                    res.send({error : "pas les bons paramètres envoyés "});
+            		}
+                    else {
+                        console.log(req.body.name);
+
+                        console.log(req.body.domain);
+	                    data.createapplet(req.body.name, req.body.domain, req.body, datacreateapp(res));
+                	}
+
 });
 
 app.put('/applet', function(req, res) {

@@ -9,6 +9,14 @@ user : "sepdb",
 password : "security1",
 database : "sepdb_database"
 });
+/*var connection  =     mysql.createConnection({
+host : "127.0.0.1",
+port : "8889",
+user : "root",
+password: 'root',
+database : "sepdb_database"
+});*/
+
 
 function hashToClause(hash, separator) {
     var result = '';
@@ -76,7 +84,9 @@ function read(table, where, columns, callback) {
 
         var clause = hashToClause(where, ' AND ');
         q += ' WHERE ' + clause.clause +'='+ where.id;
+
     }
+    console.log(q);
     connection.query(q, (where ? clause.values : callback), callback);
 }
 
@@ -90,12 +100,26 @@ var valuesClause = hashToClause(values, ' AND ');
     connection.query(q, whereClause.values.concat(valuesClause.values), callback);
 
 }
+function insertapplet(table, name,domain, callback) {
+
+    // On construit la requête dynamiquement
+    var q = 'INSERT INTO ' + table + '(';
+
+    q += 'name , domain' + ') VALUES (\'' + name +' \',(SELECT id FROM `sepdb_database`.`domain_table` WHERE name =\''+domain+'\'))';
+    // On envoie la reqûete avec le callback fourni.
+    // Les paramètres dans clause.values sont automatiquement échappés.
+    console.log(q);
+    var query = connection.query(q, callback);
+
+}
+
 
 exports.insert = insert;
 exports.remove = remove;
 exports.read = read;
 exports.update = update;
 exports.hashToClause;
+exports.insertapplet = insertapplet;
 
 // On peut simplifier les opérations courantes (liste, modification via
 // l'id, etc.) avec les fonctions suivantes.

@@ -65,3 +65,14 @@ exports.update_token = function(token){
         }
     }
 };
+
+
+exports.find_id_from_token = function(token){
+    this.delete_old_token();
+    for(var i in existing_token){
+        if((token == existing_token[i].token)){
+            return existing_token[i].id;
+        }
+    }
+    return 1;
+};
