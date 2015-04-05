@@ -112,7 +112,18 @@ function insertapplet(table, name,domain, callback) {
     var query = connection.query(q, callback);
 
 }
+exports.insertdomain =  function (table, name, callback) {
 
+    // On construit la requête dynamiquement
+    var q = 'INSERT INTO ' + table + '(';
+
+    q += 'name' + ') VALUES (\'' + name +' \')';
+    // On envoie la reqûete avec le callback fourni.
+    // Les paramètres dans clause.values sont automatiquement échappés.
+    console.log(q);
+    var query = connection.query(q, callback);
+
+}
 
 exports.insert = insert;
 exports.remove = remove;

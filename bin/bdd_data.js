@@ -83,9 +83,9 @@ exports.deletedomain = function(id, callback) {
     db.removeById('domain_table',id, callback);
 }
 
-exports.createdomain = function(values, callback) {
+exports.createdomain = function(name, values, callback) {
     if (checkColumns(values)) {
-        db.insert('domain_table', values, callback);
+        db.insertdomain('`sepdb_database`.`domain_table`', name, callback);
     } else {
         callback('Invalid column name', null);
     }

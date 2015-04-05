@@ -356,9 +356,35 @@ app.delete('/domain', function(req, res) {
 	data.deletedomain(req.params.id, dataCallback(res));
 });
 
+
+function datacreatedom(res) {
+    return function(err, data) {
+		if (err) {
+			res.statusCode=500;
+			res.send({error : err});
+
+        } else {
+
+                console.log(data[0]);
+                res.json({id : data.insertId });
+
+            }
+
+    }
+}
+
+
 app.post('/domain', function(req, res) {
 	setHeader(res);
-	data.createdomain(req.body, dataCallback(res));
+	if ( ('undefined' == typeof req.body.id)||('undefined' == typeof req.body.name) ){
+
+                                res.statusCode=400;
+                                res.send({error : "pas les bons paramètres envoyés "});
+                        		}
+                                else {
+
+	                                data.createdomain(req.body.name, req.body, datacreatedom(res));
+                            	}
 });
 
 app.put('/domain', function(req, res) {
