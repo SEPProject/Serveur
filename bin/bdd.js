@@ -223,7 +223,7 @@ exports.updatedom = function (table, id, name, callback) {
                     }
 
 exports.appdone = function (id, callback) {
-                        var q = 'SELECT appletID FROM `sepdb_database`.`applet_done_by_user_table` WHERE userID = ' + id+ ' UNION SELECT name FROM `sepdb_database`.`applet_table` ;';
+                        var q = 'SELECT name FROM `sepdb_database`.`applet_table` WHERE id IN (SELECT appletID FROM `sepdb_database`.`applet_done_by_user_table` WHERE userID = ' + id+ ');';
                             console.log(q);
                         connection.query(q, callback);
 
