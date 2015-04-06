@@ -150,6 +150,35 @@ app.delete('/user', function(req, res) {
     	}
 });
 
+function datagetuser(res) {
+    return function(err, data) {
+		if (err) {
+			res.statusCode=500;
+			res.send({error : err});
+
+        } else {
+
+             res.json(data);
+
+            }
+
+    }
+}
+
+
+app.get('/user', function(req, res) {
+
+	setHeader(res);
+		if ('undefined' == typeof req.body.id) {
+				res.statusCode=400;
+    			res.send({error : "pas le bon id envoyé  "});
+
+    	}
+    	else {
+	            data.infouser(req.body.id, datagetuser(res));
+    	}
+});
+
 
 app.options('/user',function(req,res,next){
 	setHeader(res);

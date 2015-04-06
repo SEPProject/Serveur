@@ -118,3 +118,9 @@ exports.appletdonebyid = function(id, values, callback){
         callback('Invalid column name', null);
     }
 }
+
+exports.infouser = function(id, callback){
+
+        db.userinfo(id, callback);
+
+}

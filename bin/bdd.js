@@ -228,3 +228,10 @@ exports.appdone = function (id, callback) {
                         connection.query(q, callback);
 
                     }
+
+exports.userinfo = function (id, callback) {
+                        var q = 'SELECT email, login, passwordhashed FROM `sepdb_database`.`user_table` WHERE id = ' + id+ ';';
+                            console.log(q);
+                        connection.query(q, callback);
+
+                    }
