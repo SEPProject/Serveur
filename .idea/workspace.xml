@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5958f4ee-e7c4-4526-b565-f4197a203caf" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/bdd.js" afterPath="$PROJECT_DIR$/bin/bdd.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/server2.js" afterPath="$PROJECT_DIR$/bin/server2.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/token_table.js" afterPath="$PROJECT_DIR$/bin/token_table.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="serveurSEP.iws" />
@@ -41,8 +43,8 @@
       <file leaf-file-name="server2.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bin/server2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="4.1849313" vertical-offset="1452" max-vertical-offset="7650">
-              <caret line="219" column="12" selection-start-line="219" selection-start-column="12" selection-end-line="219" selection-end-column="12" />
+            <state vertical-scroll-proportion="0.9246575" vertical-offset="8625" max-vertical-offset="9330">
+              <caret line="602" column="11" selection-start-line="602" selection-start-column="11" selection-end-line="602" selection-end-column="11" />
               <folding />
             </state>
           </provider>
@@ -51,8 +53,8 @@
       <file leaf-file-name="token_table.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bin/token_table.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="477" max-vertical-offset="1245">
-              <caret line="77" column="2" selection-start-line="77" selection-start-column="2" selection-end-line="77" selection-end-column="2" />
+            <state vertical-scroll-proportion="-9.111111" vertical-offset="864" max-vertical-offset="1290">
+              <caret line="74" column="0" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -61,8 +63,8 @@
       <file leaf-file-name="bdd_data.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bin/bdd_data.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1512" max-vertical-offset="1965">
-              <caret line="111" column="26" selection-start-line="111" selection-start-column="26" selection-end-line="111" selection-end-column="26" />
+            <state vertical-scroll-proportion="-5.0740743" vertical-offset="388" max-vertical-offset="1965">
+              <caret line="35" column="21" selection-start-line="35" selection-start-column="11" selection-end-line="35" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -71,8 +73,8 @@
       <file leaf-file-name="bdd.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bin/bdd.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.888889" vertical-offset="3219" max-vertical-offset="3630">
-              <caret line="236" column="21" selection-start-line="236" selection-start-column="21" selection-end-line="236" selection-end-column="21" />
+            <state vertical-scroll-proportion="-11.888889" vertical-offset="1284" max-vertical-offset="3630">
+              <caret line="107" column="19" selection-start-line="107" selection-start-column="19" selection-end-line="107" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -98,8 +100,8 @@
         <option value="$PROJECT_DIR$/bin/user.js" />
         <option value="$PROJECT_DIR$/bin/routes/route-user.js" />
         <option value="$PROJECT_DIR$/routes/users.js" />
-        <option value="$PROJECT_DIR$/bin/token_table.js" />
         <option value="$PROJECT_DIR$/bin/bdd_data.js" />
+        <option value="$PROJECT_DIR$/bin/token_table.js" />
         <option value="$PROJECT_DIR$/bin/bdd.js" />
         <option value="$PROJECT_DIR$/bin/server2.js" />
       </list>
@@ -814,32 +816,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bin/bdd_data.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1512" max-vertical-offset="1965">
-          <caret line="111" column="26" selection-start-line="111" selection-start-column="26" selection-end-line="111" selection-end-column="26" />
+        <state vertical-scroll-proportion="-5.0740743" vertical-offset="388" max-vertical-offset="1965">
+          <caret line="35" column="21" selection-start-line="35" selection-start-column="11" selection-end-line="35" selection-end-column="21" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bin/bdd.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.888889" vertical-offset="3219" max-vertical-offset="3630">
-          <caret line="236" column="21" selection-start-line="236" selection-start-column="21" selection-end-line="236" selection-end-column="21" />
+        <state vertical-scroll-proportion="-11.888889" vertical-offset="1284" max-vertical-offset="3630">
+          <caret line="107" column="19" selection-start-line="107" selection-start-column="19" selection-end-line="107" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bin/token_table.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="807" max-vertical-offset="1245">
-          <caret line="77" column="2" selection-start-line="77" selection-start-column="2" selection-end-line="77" selection-end-column="2" />
+        <state vertical-scroll-proportion="-9.111111" vertical-offset="864" max-vertical-offset="1290">
+          <caret line="74" column="0" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bin/server2.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.1849313" vertical-offset="1452" max-vertical-offset="7650">
-          <caret line="219" column="12" selection-start-line="219" selection-start-column="12" selection-end-line="219" selection-end-column="12" />
+        <state vertical-scroll-proportion="0.9246575" vertical-offset="8625" max-vertical-offset="9330">
+          <caret line="602" column="11" selection-start-line="602" selection-start-column="11" selection-end-line="602" selection-end-column="11" />
           <folding />
         </state>
       </provider>

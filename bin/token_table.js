@@ -17,7 +17,7 @@ var existing_token = [];
        newToken = Math.floor((Math.random() * 1000000) + 1);
     }
     var d = new Date();
-    existing_token.push({"id":data.id,"token":newToken,"time": d.getTime()});
+    existing_token.push({"id":data.insertId,"token":newToken,"time": d.getTime()});
     console.log(JSON.stringify(existing_token)+"les ");
      return newToken;
 };
@@ -39,6 +39,7 @@ exports.delete_token = function(token){
     var newExistingToken = [];
     for(var i in existing_token){
         if(!(token == existing_token[i].token)){
+
             newExistingToken.push(existing_token[i]);
         }
     }
@@ -71,8 +72,10 @@ exports.find_id_from_token = function(token){
     this.delete_old_token();
     for(var i in existing_token){
         if((token == existing_token[i].token)){
+
             return existing_token[i].id;
         }
+
     }
-    return 1;
+    return -1;
 };

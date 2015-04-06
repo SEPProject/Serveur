@@ -86,7 +86,7 @@ function dataExecute(res) {
             if (data.length != 0  ){
 				console.log("data"+data);
                // res.json(data);
-				var tokenToSend = token_table.add_token(data.id);//METTRE LE BON ID DE CONNEXION
+				var tokenToSend = token_table.add_token(data);//METTRE LE BON ID DE CONNEXION
 
 				if(tokenToSend != -1){
 					res.json({token : tokenToSend});
@@ -104,6 +104,22 @@ function dataExecute(res) {
 
     }
 }
+function datainscription(res) {
+    return function(err, data) {
+		if (err) {
+			res.statusCode=500;
+			res.send({error : err});
+
+        } else {
+
+			    var token = token_table.add_token(data);
+			    res.json({token : token});
+
+		}
+
+
+    }
+}
 
 app.post('/user', function(req, res) {
     console.log("test");
@@ -115,7 +131,7 @@ app.post('/user', function(req, res) {
     	}
     	else {
 
-	        data.adduser(req.body, dataCallback(res));
+	        data.adduser(req.body, datainscription(res));
 	        //console.log(res);
     	}
 	//console.log(res);
@@ -124,29 +140,42 @@ app.post('/user', function(req, res) {
 });
 
 app.put('/user', function(req, res, err) {
-    console.log(req.body.id);
+
 	setHeader(res);
-	if ('undefined' == typeof req.body.id) {
+	if ('undefined' == typeof req.body.token) {
 
 			res.statusCode=400;
 			res.send({error : "pas le bon id envoyé  "});
 
 	}
 	else {
-         	data.updateuser(req.params.id, req.body, dataCallback(res));
+
+	        var id = token_table.find_id_from_token(req.body.token);
+    	         if (id != -1){
+ 	                    data.updateuser(id, req.body, dataCallback(res));
+    	         }else{
+    	         res.statusCode=406;
+    	         res.send({error : "vous n'êtes plus connecté"})
+    	         }
 	}
 });
 
 app.delete('/user', function(req, res) {
 
 	setHeader(res);
-		if ('undefined' == typeof req.body.id) {
+		if (('undefined' == typeof req.body.id)||('undefined' == typeof req.body.token)) {
 				res.statusCode=400;
     			res.send({error : "pas le bon id envoyé  "});
 
     	}
     	else {
+    	    if(req.body.token == 1){
 	            data.removeuser(req.body.id, dataCallback(res));
+	            }
+	            else{
+	            res.statusCode=402;
+	            res.send({error : "vous n'avez pas les permissions"});
+	            }
     	}
 });
 
@@ -169,14 +198,23 @@ function datagetuser(res) {
 app.get('/user', function(req, res) {
 
 	setHeader(res);
-		if ('undefined' == typeof req.body.id) {
+		if ('undefined' == typeof req.body.token) {
 				res.statusCode=400;
     			res.send({error : "pas le bon id envoyé  "});
 
     	}
     	else {
-	            data.infouser(req.body.id, datagetuser(res));
-    	}
+
+    	         var id = token_table.find_id_from_token(req.body.token);
+    	         if (id != -1){
+    	        data.infouser(id, datagetuser(res));
+
+    	         }else{
+    	         res.statusCode=406;
+    	         res.send({error : "vous n'êtes plus connecté"})
+    	         }
+
+	      }
 });
 
 
@@ -189,10 +227,26 @@ app.options('/user',function(req,res,next){
 //----------------/USER/ACTION-------------------//
 //Fonction renvoie tous les utilisateurs présents dans la db
 app.get('/user/action', function (req, res) {
-    console.log(req.body);
-    console.log("salut");
+
+
 	setHeader(res);
-	data.getuser(req.body, dataCallback(res));
+		if ('undefined' == typeof req.body.token) {
+    				res.statusCode=400;
+        			res.send({error : "pas le bon id envoyé  "});
+
+        	}
+        	else {
+
+        	         var id = token_table.find_id_from_token(req.body.token);
+        	         if (id != -1){
+	                    data.getuser(req.body, dataCallback(res));
+        	         }else{
+        	         res.statusCode=406;
+        	         res.send({error : "vous n'êtes plus connecté"})
+        	         }
+
+    	      }
+
 });
 
 app.post('/user/action',function(req,res){
@@ -251,7 +305,15 @@ app.get('/applet/done', function(req, res) {
             res.send({error : "pas les bons paramètres envoyés "});
     		}
             else {
-                data.appletdonebyid(req.body.id, req.body, dataAppletdone(res));
+                 var id = token_table.find_id_from_token(req.body.token);
+                 if (id != -1){
+                    data.appletdonebyid(id, req.body, dataAppletdone(res));
+
+                 }else{
+                 res.statusCode=406;
+                 res.send({error : "vous n'êtes plus connecté"})
+                 }
+
         	}
 
 
@@ -271,8 +333,22 @@ function dataAllApplet(res) {
 }
 app.get('/applet', function(req, res) {
             setHeader(res);
+		if ('undefined' == typeof req.body.token) {
+    				res.statusCode=400;
+        			res.send({error : "pas le bon id envoyé  "});
 
-	        data.getapplet(/*req.body, (gestion du token)*/ dataAllApplet(res));
+        	}
+        	else {
+
+        	         var id = token_table.find_id_from_token(req.body.token);
+        	         if (id != -1){
+	                    data.getapplet(/*req.body, (gestion du token)*/ dataAllApplet(res));
+        	         }else{
+        	         res.statusCode=406;
+        	         res.send({error : "vous n'êtes plus connecté"})
+        	         }
+
+    	      }
 
 
 });
@@ -293,15 +369,21 @@ function datadeleteapp(res) {
 
 app.delete('/applet', function(req, res) {
 	setHeader(res);
-	if ('undefined' == typeof req.body.id){
+	if (('undefined' == typeof req.body.id)||('undefined' == typeof req.body.token)){
 
                 res.statusCode=400;
                 res.send({error : "pas les bons paramètres envoyés "});
         		}
                 else {
-                    console.log(req.body.id);
-	                data.deleteapplet(req.body.id, datadeleteapp(res));
-            	}
+                    if(req.body.token == 1){
+	                     data.deleteapplet(req.body.id, datadeleteapp(res));
+                      }
+                      else{
+                      res.statusCode=402;
+                      res.send({error : "vous n'avez pas les permissions"});
+                      }
+                }
+
 });
 function datacreateapp(res) {
     return function(err, data) {
@@ -318,16 +400,19 @@ function datacreateapp(res) {
 }
 app.post('/applet', function(req, res) {
 	setHeader(res);
-		if (('undefined' == typeof req.body.name) || ('undefined' == typeof req.body.domain)){
+		if (('undefined' == typeof req.body.name) || ('undefined' == typeof req.body.domain)||('undefined' == typeof req.body.token) ){
 
                     res.statusCode=400;
                     res.send({error : "pas les bons paramètres envoyés "});
             		}
                     else {
-                        console.log(req.body.name);
-
-                        console.log(req.body.domain);
-	                    data.createapplet(req.body.name, req.body.domain, req.body, datacreateapp(res));
+                         if(req.body.token == 1){
+	                         data.createapplet(req.body.name, req.body.domain, req.body, datacreateapp(res));
+                          }
+                          else{
+                          res.statusCode=402;
+                          res.send({error : "vous n'avez pas les permissions"});
+                          }
                 	}
 
 });
@@ -348,14 +433,20 @@ function dataupapp(res) {
 
 app.put('/applet', function(req, res) {
 	setHeader(res);
-	if (('undefined' == typeof req.body.name) || ('undefined' == typeof req.body.domain)|| ('undefined' == typeof req.body.id) ){
+	if (('undefined' == typeof req.body.name) || ('undefined' == typeof req.body.token)||('undefined' == typeof req.body.domain)|| ('undefined' == typeof req.body.id) ){
 
                         res.statusCode=400;
                         res.send({error : "pas les bons paramètres envoyés "});
                 		}
                         else {
-
+                         if(req.body.token == 1){
 	                        data.updateapplet(req.body.id, req.body.name , req.body.domain ,req.body,  dataupapp(res));
+                            }
+                            else{
+                            res.statusCode=402;
+                            res.send({error : "vous n'avez pas les permissions"});
+                            }
+
                     	}
 });
 
@@ -381,14 +472,20 @@ function datagetdom(res) {
 
 app.get('/domain', function(req, res) {
 	setHeader(res);
-		if ( ('undefined' == typeof req.body.id) ){
+		if ( ('undefined' == typeof req.body.token) ){
 
-                            res.statusCode=400;
-                            res.send({error : "pas les bons paramètres envoyés "});
-                    		}
-                            else {
+            res.statusCode=400;
+            res.send({error : "pas les bons paramètres envoyés "});
+            }
+            else {
 
+        	         var id = token_table.find_id_from_token(req.body.token);
+        	         if (id != -1){
 	                            data.getdomain(datagetdom(res));
+        	         }else{
+        	         res.statusCode=406;
+        	         res.send({error : "vous n'êtes plus connecté"})
+        	         }
                         	}
 });
 
@@ -412,15 +509,19 @@ function datadeletedom(res) {
 
 app.delete('/domain', function(req, res) {
 	setHeader(res);
-	if ('undefined' == typeof req.body.id){
+	if (('undefined' == typeof req.body.id)||('undefined' == typeof req.body.token)){
 
                     res.statusCode=400;
                     res.send({error : "pas les bons paramètres envoyés "});
             		}
                     else {
-                        console.log(req.body.id);
-	                    data.deletedomain(req.body.id, datadeletedom(res));
-                	}
+                        if(req.body.token == 1){
+                               data.deletedomain(req.body.id, datadeletedom(res));
+                            }
+                            else{
+                            res.statusCode=402;
+                            res.send({error : "vous n'avez pas les permissions"});
+                            }	                 	}
 });
 
 
@@ -443,14 +544,19 @@ function datacreatedom(res) {
 
 app.post('/domain', function(req, res) {
 	setHeader(res);
-	if ( ('undefined' == typeof req.body.id)||('undefined' == typeof req.body.name) ){
+	if ( ('undefined' == typeof req.body.id)||('undefined' == typeof req.body.token)||('undefined' == typeof req.body.name) ){
 
-                                res.statusCode=400;
-                                res.send({error : "pas les bons paramètres envoyés "});
-                        		}
-                                else {
-
-	                                data.createdomain(req.body.name, req.body, datacreatedom(res));
+                    res.statusCode=400;
+                    res.send({error : "pas les bons paramètres envoyés "});
+                    }
+                    else {
+                            if(req.body.token == 1){
+	                            data.createdomain(req.body.name, req.body, datacreatedom(res));
+                            }
+                            else{
+                            res.statusCode=402;
+                            res.send({error : "vous n'avez pas les permissions"});
+                            }
                             	}
 });
 function dataupdom(res) {
@@ -468,14 +574,20 @@ function dataupdom(res) {
 }
 app.put('/domain', function(req, res) {
     setHeader(res);
-    if (('undefined' == typeof req.body.name) || ('undefined' == typeof req.body.id) ){
+    if (('undefined' == typeof req.body.name) ||('undefined' == typeof req.body.token) ||  ('undefined' == typeof req.body.id) ){
 
         res.statusCode=400;
         res.send({error : "pas les bons paramètres envoyés "});
         }
         else {
+            if(req.body.token == 1){
+                  data.updatedomain(req.body.id, req.body.name, req.body,  dataupdom(res));
+                  }
+                  else{
+                  res.statusCode=402;
+                  res.send({error : "vous n'avez pas les permissions"});
+                  }
 
-            data.updatedomain(req.body.id, req.body.name, req.body,  dataupdom(res));
         }
 });
 
