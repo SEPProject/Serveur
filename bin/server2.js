@@ -210,6 +210,18 @@ app.post('/user/action',function(req,res){
 });
 
 
+app.delete('/user/action',function(req,res){
+    setHeader(res);
+    	if ('undefined' == typeof req.body.token) {
+        			res.statusCode=400;
+        			res.send({error : "pas les bons paramètres envoyés "});
+		}
+        	else {
+            token_table.delete_token(req.body.token);    	        //console.log(res);
+        	}
+
+});
+
 //---------------APPLET------------------//
 
 //TODO Get applet done
