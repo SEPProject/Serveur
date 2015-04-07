@@ -299,15 +299,15 @@ function dataAppletdone(res) {
 
 app.get('/applet/done', function(req, res) {
 	setHeader(res);
-	if ('undefined' == typeof req.body.id){
+	if ('undefined' == typeof req.param('id')){
 
             res.statusCode=400;
             res.send({error : "pas les bons paramètres envoyés "});
     		}
             else {
-                 var id = token_table.find_id_from_token(req.body.token);
+                 var id = token_table.find_id_from_token(req.param('token'));
                  if (id != -1){
-                    data.appletdonebyid(id, req.body, dataAppletdone(res));
+                    data.appletdonebyid(id, req.param, dataAppletdone(res));
 
                  }else{
                  res.statusCode=406;
@@ -333,14 +333,14 @@ function dataAllApplet(res) {
 }
 app.get('/applet', function(req, res) {
             setHeader(res);
-		if ('undefined' == typeof req.body.token) {
+		if ('undefined' == typeof req.param('token')) {
     				res.statusCode=400;
         			res.send({error : "pas le bon id envoyé  "});
 
         	}
         	else {
 
-        	         var id = token_table.find_id_from_token(req.body.token);
+        	         var id = token_table.find_id_from_token(req.param('token'));
         	         if (id != -1){
 	                    data.getapplet(/*req.body, (gestion du token)*/ dataAllApplet(res));
         	         }else{
@@ -472,14 +472,14 @@ function datagetdom(res) {
 
 app.get('/domain', function(req, res) {
 	setHeader(res);
-		if ( ('undefined' == typeof req.body.token) ){
+		if ( ('undefined' == typeof req.param('token')) ){
 
             res.statusCode=400;
             res.send({error : "pas les bons paramètres envoyés "});
             }
             else {
 
-        	         var id = token_table.find_id_from_token(req.body.token);
+        	         var id = token_table.find_id_from_token(req.param('token'));
         	         if (id != -1){
 	                            data.getdomain(datagetdom(res));
         	         }else{
