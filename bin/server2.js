@@ -230,7 +230,7 @@ app.get('/user/action', function (req, res) {
 
 
 	setHeader(res);
-		if ('undefined' == typeof req.param('token') {
+		if ('undefined' == typeof req.param('token')) {
     				res.statusCode=400;
         			res.send({error : "pas le bon id envoyé  "});
 
