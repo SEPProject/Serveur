@@ -107,12 +107,18 @@ function dataExecute(res) {
 function datainscription(res) {
     return function(err, data) {
 		if (err) {
-			res.statusCode=500;
-			res.send({error : err});
+		    if ('ER_DUP_ENTRY' == err.code){
+		   		res.statusCode=410;
+           		res.send({error : err});
+		    }else{
+				res.statusCode=500;
+    			res.send({error : err});
+		    }
+
 
         } else {
 
-			    var token = token_table.add_token({'id':data.insertId});
+			    var token = token_table.add_token([{'id':data.insertId}]);
 			    res.json({token : token});
 
 		}
