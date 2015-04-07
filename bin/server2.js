@@ -112,7 +112,7 @@ function datainscription(res) {
 
         } else {
 
-			    var token = token_table.add_token(data);
+			    var token = token_table.add_token({'id':data.insertId});
 			    res.json({token : token});
 
 		}

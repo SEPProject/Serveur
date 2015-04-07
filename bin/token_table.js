@@ -17,10 +17,12 @@ var existing_token = [];
        newToken = Math.floor((Math.random() * 1000000) + 1);
     }
     var d = new Date();
-    existing_token.push({"id":data.insertId,"token":newToken,"time": d.getTime()});
+    existing_token.push({"id":data.id,"token":newToken,"time": d.getTime()});
     console.log(JSON.stringify(existing_token)+"les ");
      return newToken;
 };
+
+
 
 exports.delete_old_token = function (){
     var newExistingToken = [];
