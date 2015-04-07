@@ -198,14 +198,14 @@ function datagetuser(res) {
 app.get('/user', function(req, res) {
 
 	setHeader(res);
-		if ('undefined' == typeof req.body.token) {
+		if ('undefined' == typeof req.param('token')) {
 				res.statusCode=400;
     			res.send({error : "pas le bon id envoyé  "});
 
     	}
     	else {
 
-    	         var id = token_table.find_id_from_token(req.body.token);
+    	         var id = token_table.find_id_from_token(req.param('token'));
     	         if (id != -1){
     	        data.infouser(id, datagetuser(res));
 
@@ -230,16 +230,16 @@ app.get('/user/action', function (req, res) {
 
 
 	setHeader(res);
-		if ('undefined' == typeof req.body.token) {
+		if ('undefined' == typeof req.param('token') {
     				res.statusCode=400;
         			res.send({error : "pas le bon id envoyé  "});
 
         	}
         	else {
 
-        	         var id = token_table.find_id_from_token(req.body.token);
+        	         var id = token_table.find_id_from_token(req.param('token'));
         	         if (id != -1){
-	                    data.getuser(req.body, dataCallback(res));
+	                    data.getuser(req.param, dataCallback(res));
         	         }else{
         	         res.statusCode=406;
         	         res.send({error : "vous n'êtes plus connecté"})
