@@ -156,13 +156,27 @@ app.put('/user', function(req, res, err) {
 	}
 	else {
 
-	        var id = token_table.find_id_from_token(req.body.token);
+	    	if ('undefined' == typeof req.body.passwordhashed) {
+	             var id = token_table.find_id_from_token(req.body.token);
+    	         if (id != -1){
+ 	                    data.updateuserpwd(id, req.body.login, req.body.email, req.body.passwordhashed, req.passwordhashedold, req.body, dataCallback(res));
+    	         }else{
+    	         res.statusCode=406;
+    	         res.send({error : "vous n'êtes plus connecté"})
+    	         }
+
+        	}else {
+
+	             var id = token_table.find_id_from_token(req.body.token);
     	         if (id != -1){
  	                    data.updateuser(id, req.body, dataCallback(res));
     	         }else{
     	         res.statusCode=406;
     	         res.send({error : "vous n'êtes plus connecté"})
     	         }
+
+        	}
+
 	}
 });
 

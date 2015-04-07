@@ -38,6 +38,14 @@ exports.updateuser = function(id, values, callback) {
         callback('Invalid column name', null);
     }
 }
+exports.updateuserpwd = function(id, login, email, pwd, pwdold, values, callback) {
+    if (checkColumns(values)) {
+        console.log(values);
+        db.updatewithpwd('`sepdb_database`.`user_table`', id, login,email,pwd ,pwdold,  callback);
+    } else {
+        callback('Invalid column name', null);
+    }
+}
 exports.removeuser = function(id, callback) {
 
     db.removeById('`sepdb_database`.`user_table`',id,callback);

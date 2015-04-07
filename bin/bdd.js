@@ -224,8 +224,16 @@ exports.updatedom = function (table, id, name, callback) {
 
 exports.appdone = function (id, callback) {
                         var q = 'SELECT name FROM `sepdb_database`.`applet_table` WHERE id IN (SELECT appletID FROM `sepdb_database`.`applet_done_by_user_table` WHERE userID = ' + id+ ');';
-                            console.log(q);
+                        console.log(q);
                         connection.query(q, callback);
+
+                    }
+exports.updatewithpwd = function(id, login, email, pwd, pwdold, callback){
+                     var q = 'SELECT id FROM `sepdb_database`.`user_table` WHERE (id="'+id+'" AND passwordhashed="'+pwdold+'");'+ 'UPDATE `sepdb_database`.`user_table`' + ' SET ' +'`email`'+'=\''+ email+ '\' ,`login`'+'=\''+ login +'\' ,`passwordhashed`'+'=\''+ pwd + '\' WHERE ' +
+                                                                                                                    '`id`'+'=\''+ id + '\';';
+                     console.log(q);
+                     connection.query(q, callback);
+
 
                     }
 
