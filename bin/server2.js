@@ -156,7 +156,7 @@ app.put('/user', function(req, res, err) {
 	}
 	else {
 
-	    	if ('undefined' == typeof req.body.passwordhashed) {
+	    	if ('undefined' != typeof req.body.passwordhashed) {
 	             var id = token_table.find_id_from_token(req.body.token);
     	         if (id != -1){
  	                    data.updateuserpwd(id, req.body.login, req.body.email, req.body.passwordhashed, req.passwordhashedold, req.body, dataCallback(res));
@@ -482,8 +482,8 @@ function datagetdom(res) {
 
         } else {
 
-                console.log(data[0]);
-                res.json({domaines : data });
+                console.log(data);
+                res.json(data);
 
             }
 
