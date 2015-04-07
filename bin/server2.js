@@ -346,7 +346,7 @@ function dataAllApplet(res) {
 			res.send({error : err});
 
         } else {
-            res.json({applets : data});
+            res.json(data);
             }
 
     }
