@@ -94,7 +94,7 @@ function read(table, where, columns, callback) {
 function update(table, where, values, callback) {
  var whereClause = hashToClause(where, ' AND ');
 var valuesClause = hashToClause(values, ' AND ');
-    var q = 'UPDATE ' + table + ' SET ' +'`email`'+'=\''+ values.email+ '\' ,`login`'+'=\''+ values.login +'\' ,`passwordhashed`'+'=\''+ values.passwordhashed + '\' WHERE ' +
+    var q = 'UPDATE ' + table + ' SET ' +'`email`'+'=\''+ values.email+ '\' ,`login`'+'=\''+ values.login +'\' ' + '\' WHERE ' +
         '`id`'+'=\''+ where.id + '\';';
         console.log(q);
     connection.query(q, whereClause.values.concat(valuesClause.values), callback);
@@ -229,7 +229,7 @@ exports.appdone = function (id, callback) {
 
                     }
 exports.updatewithpwd = function(table, id, login, email, pwd, pwdold, callback){
-                     var q = 'SELECT id FROM `sepdb_database`.`user_table` WHERE (id="'+id+'" AND passwordhashed="'+pwdold+'");'+ 'UPDATE `sepdb_database`.`user_table`' + ' SET ' +'`email`'+'=\''+ email+ '\' ,`login`'+'=\''+ login +'\' ,`passwordhashed`'+'=\''+ pwd + '\' WHERE ' +
+                     var q = 'SELECT id FROM `sepdb_database`.`user_table` WHERE (id="'+id+'" AND passwordhashed="'+ pwdold +'");'+ 'UPDATE `sepdb_database`.`user_table`' + ' SET ' +'`email`'+'=\''+ email+ '\' ,`login`'+'=\''+ login +'\' ,`passwordhashed`'+'=\''+ pwd + '\' WHERE ' +
                                                                                                                     '`id`'+'=\''+ id + '\';';
                      console.log(q);
                      connection.query(q, callback);
