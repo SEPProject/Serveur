@@ -228,7 +228,7 @@ exports.appdone = function (id, callback) {
                         connection.query(q, callback);
 
                     }
-exports.updatewithpwd = function(id, login, email, pwd, pwdold, callback){
+exports.updatewithpwd = function(table, id, login, email, pwd, pwdold, callback){
                      var q = 'SELECT id FROM `sepdb_database`.`user_table` WHERE (id="'+id+'" AND passwordhashed="'+pwdold+'");'+ 'UPDATE `sepdb_database`.`user_table`' + ' SET ' +'`email`'+'=\''+ email+ '\' ,`login`'+'=\''+ login +'\' ,`passwordhashed`'+'=\''+ pwd + '\' WHERE ' +
                                                                                                                     '`id`'+'=\''+ id + '\';';
                      console.log(q);
