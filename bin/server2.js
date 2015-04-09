@@ -2,6 +2,9 @@ var data = require('./bdd_data.js');
 var express = require("express");
 var token_table = require('./token_table.js');
 var app = express();
+var sqlinjection = require('sql-injection');
+app.use(sqlinjection);
+
 
 var path = require('path');
 var favicon = require('serve-favicon');
