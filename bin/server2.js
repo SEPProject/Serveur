@@ -166,7 +166,6 @@ app.put('/user', function(req, res, err) {
     	         res.statusCode=406;
     	         res.send({error : "vous n'êtes plus connecté"})
     	         }
-
         	}else {
 
 	             var id = token_table.find_id_from_token(req.body.token);
