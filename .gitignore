@@ -1,5 +1,3 @@
-logs/*
-!.gitkeep
 .DS_Store
 .idea
 bdd.js
