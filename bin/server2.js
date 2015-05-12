@@ -216,7 +216,7 @@ app.delete('/user', function(req, res) {
     	}
     	else {
     	        var id = token_table.find_id_from_token(req.body.token);
-                if (id != -1 && req.body.token == get_token_root()){
+                if (id != -1 && req.body.token == token_table.get_token_root()){
 	            data.removeuser(req.body.id, dataDeleteUser(res));
 	            console.log("test du token admin ! ");
 	            }
@@ -289,7 +289,7 @@ function dataUserlist(res) {
 				var tokenToSend = token_table.add_token({id : data.insertId});
 				if(tokenToSend != -1){
 				    console.log(data);
-					res.json({id : data.insertId,token : tokenToSend});
+					res.json({data : data});
 				}else{
 					res.statusCode=500;
 					res.send({error : data});
@@ -319,7 +319,9 @@ app.get('/user/action', function (req, res) {
         	else {
 
         	         var id = token_table.find_id_from_token(req.param('token'));
-        	         if (req.body.token == 1){
+        	         var tok = token_table.get_token_root();
+        	         console.log(token_table.actual_token_root);
+        	         if (req.body.token == token_table.actual_token_root){
 	                    data.getuserlist(req.param, dataUserlist(res));
         	         }else{
         	         res.statusCode=402;
@@ -344,7 +346,7 @@ function dataExecuteadmin(res) {
 				console.log("data"+data);
                // res.json(data);
                 var tokenToSend = token_table.add_token(data);
-                set_token_root(tokenToSend);
+                token_table.set_token_root(tokenToSend);
 				if(tokenToSend != -1){
 					res.json({token : tokenToSend,
 					        admin : true});
@@ -493,7 +495,7 @@ app.delete('/applet', function(req, res) {
         		}
                 else {
                     var id = token_table.find_id_from_token(req.body.token);
-                    if (id != -1 && req.body.token == get_token_root()){
+                    if (id != -1 && req.body.token == token_table.get_token_root()){
                         data.deleteapplet(req.body.id, datadeleteapp(res));
                         }
                       else{
@@ -525,7 +527,7 @@ app.post('/applet', function(req, res) {
             		}
                     else {
                         var id = token_table.find_id_from_token(req.body.token);
-                        if (id != -1 && req.body.token == get_token_root()){
+                        if (id != -1 && req.body.token == token_table.get_token_root()){
 	                         data.createapplet(req.body.name, req.body.domain, req.body, datacreateapp(res));
                         }
                           else{
@@ -560,7 +562,8 @@ app.put('/applet', function(req, res) {
                         else {
 
                         var id = token_table.find_id_from_token(req.body.token);
-                        if (id != -1 && req.body.token == get_token_root()){
+
+                        if (id != -1 && req.body.token == token_table.get_token_root()){
 	                        data.updateapplet(req.body.id, req.body.name , req.body.domain ,req.body,  dataupapp(res));
                         }
 
@@ -638,7 +641,7 @@ app.delete('/domain', function(req, res) {
             		}
                     else {
                         var id = token_table.find_id_from_token(req.body.token);
-                        if (id != -1 && req.body.token == get_token_root()){
+                        if (id != -1 && req.body.token == token_table.get_token_root()){
                                data.deletedomain(req.body.id, datadeletedom(res));
                         }
 
@@ -675,7 +678,7 @@ app.post('/domain', function(req, res) {
                     }
                     else {
                         var id = token_table.find_id_from_token(req.body.token);
-                        if (id != -1 && req.body.token == get_token_root()){
+                        if (id != -1 && req.body.token == token_table.get_token_root()){
 	                            data.createdomain(req.body.name, req.body, datacreatedom(res));
                         }
 
@@ -708,7 +711,7 @@ app.put('/domain', function(req, res) {
         else {
 
             var id = token_table.find_id_from_token(req.body.token);
-            if (id != -1 && req.body.token == get_token_root()){
+            if (id != -1 && req.body.token == token_table.get_token_root()){
                   data.updatedomain(req.body.id, req.body.name, req.body,  dataupdom(res));
             }
 

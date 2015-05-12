@@ -133,4 +133,8 @@ exports.infouser = function(id, callback){
 
 }
 
-exports.getuserlist =
+
+exports.getuserlist = function(id, callback) {
+    console.log(id.id);
+    db.findalluser('`sepdb_database`.`user_table`', callback);
+}
