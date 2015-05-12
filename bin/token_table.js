@@ -22,7 +22,15 @@ var existing_token = [];
      return newToken;
 };
 
+var actual_token_root;
 
+export.get_token_root = function(){
+    return actual_token_root;
+}
+
+export.set_token_root = function(token){
+    this.actual_token_root = token;
+}
 
 exports.delete_old_token = function (){
     var newExistingToken = [];

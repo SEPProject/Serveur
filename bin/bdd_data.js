@@ -132,3 +132,5 @@ exports.infouser = function(id, callback){
         db.userinfo(id, callback);
 
 }
+
+exports.getuserlist =

@@ -181,17 +181,44 @@ app.put('/user', function(req, res, err) {
 	}
 });
 
+function dataDeleteUser(res) {
+    return function(err, data) {
+		if (err) {
+			res.statusCode=500;
+			res.json({error : "utilisateur non supprimé"});
+
+        } else {
+            if (data.affectedRows==1){
+                res.statusCode=200;
+                res.json({message : "utilisateur supprimé"});
+
+            } else {
+                res.statusCode=404;
+                res.json({error : "utilisateur non supprimé car son id n'existe pas"});
+            }
+
+
+              }
+            //res.status(status).send("insertId : " + data.insertId + "\n");
+            }
+
+    }
+
+
+
 app.delete('/user', function(req, res) {
 
 	setHeader(res);
 		if (('undefined' == typeof req.body.id)||('undefined' == typeof req.body.token)) {
 				res.statusCode=400;
-    			res.send({error : "pas le bon id envoyé  "});
+    			res.send({error : "pas les bons paramètres "});
 
     	}
     	else {
-    	    if(req.body.token == 1){
-	            data.removeuser(req.body.id, dataCallback(res));
+    	        var id = token_table.find_id_from_token(req.body.token);
+                if (id != -1 && req.body.token == get_token_root()){
+	            data.removeuser(req.body.id, dataDeleteUser(res));
+	            console.log("test du token admin ! ");
 	            }
 	            else{
 	            res.statusCode=402;
@@ -246,6 +273,39 @@ app.options('/user',function(req,res,next){
 
 
 //----------------/USER/ACTION-------------------//
+
+function dataUserlist(res) {
+    return function(err, data) {
+		if (err) {
+			res.statusCode=500;
+			res.send({error : err});
+
+        } else {
+			// Il serait intéressant de fournir une réponse plus lisible en
+			// cas de mise à jour ou d'insertion...
+
+            if (data.insertId != 0 && 'undefined' != typeof data.insertId){
+
+				var tokenToSend = token_table.add_token({id : data.insertId});
+				if(tokenToSend != -1){
+				    console.log(data);
+					res.json({id : data.insertId,token : tokenToSend});
+				}else{
+					res.statusCode=500;
+					res.send({error : data});
+				}
+            }else{
+                res.send(data);
+
+            }
+            //res.status(status).send("insertId : " + data.insertId + "\n");
+            }
+
+    }
+}
+
+
+
 //Fonction renvoie tous les utilisateurs présents dans la db
 app.get('/user/action', function (req, res) {
 
@@ -259,11 +319,11 @@ app.get('/user/action', function (req, res) {
         	else {
 
         	         var id = token_table.find_id_from_token(req.param('token'));
-        	         if (id != -1){
-	                    data.getuser(req.param, dataCallback(res));
+        	         if (req.body.token == 1){
+	                    data.getuserlist(req.param, dataUserlist(res));
         	         }else{
-        	         res.statusCode=406;
-        	         res.send({error : "vous n'êtes plus connecté"})
+        	         res.statusCode=402;
+        	         res.send({error : "vous n'avez pas les permissions"})
         	         }
 
     	      }
@@ -283,8 +343,8 @@ function dataExecuteadmin(res) {
             if (data.length != 0  ){
 				console.log("data"+data);
                // res.json(data);
-				var tokenToSend = 1;//Token admin
-
+                var tokenToSend = token_table.add_token(data);
+                set_token_root(tokenToSend);
 				if(tokenToSend != -1){
 					res.json({token : tokenToSend,
 					        admin : true});
@@ -432,9 +492,10 @@ app.delete('/applet', function(req, res) {
                 res.send({error : "pas les bons paramètres envoyés "});
         		}
                 else {
-                    if(req.body.token == 1){
-	                     data.deleteapplet(req.body.id, datadeleteapp(res));
-                      }
+                    var id = token_table.find_id_from_token(req.body.token);
+                    if (id != -1 && req.body.token == get_token_root()){
+                        data.deleteapplet(req.body.id, datadeleteapp(res));
+                        }
                       else{
                       res.statusCode=402;
                       res.send({error : "vous n'avez pas les permissions"});
@@ -463,9 +524,10 @@ app.post('/applet', function(req, res) {
                     res.send({error : "pas les bons paramètres envoyés "});
             		}
                     else {
-                         if(req.body.token == 1){
+                        var id = token_table.find_id_from_token(req.body.token);
+                        if (id != -1 && req.body.token == get_token_root()){
 	                         data.createapplet(req.body.name, req.body.domain, req.body, datacreateapp(res));
-                          }
+                        }
                           else{
                           res.statusCode=402;
                           res.send({error : "vous n'avez pas les permissions"});
@@ -496,9 +558,12 @@ app.put('/applet', function(req, res) {
                         res.send({error : "pas les bons paramètres envoyés "});
                 		}
                         else {
-                         if(req.body.token == 1){
+
+                        var id = token_table.find_id_from_token(req.body.token);
+                        if (id != -1 && req.body.token == get_token_root()){
 	                        data.updateapplet(req.body.id, req.body.name , req.body.domain ,req.body,  dataupapp(res));
-                            }
+                        }
+
                             else{
                             res.statusCode=402;
                             res.send({error : "vous n'avez pas les permissions"});
@@ -572,9 +637,11 @@ app.delete('/domain', function(req, res) {
                     res.send({error : "pas les bons paramètres envoyés "});
             		}
                     else {
-                        if(req.body.token == 1){
+                        var id = token_table.find_id_from_token(req.body.token);
+                        if (id != -1 && req.body.token == get_token_root()){
                                data.deletedomain(req.body.id, datadeletedom(res));
-                            }
+                        }
+
                             else{
                             res.statusCode=402;
                             res.send({error : "vous n'avez pas les permissions"});
@@ -607,9 +674,11 @@ app.post('/domain', function(req, res) {
                     res.send({error : "pas les bons paramètres envoyés "});
                     }
                     else {
-                            if(req.body.token == 1){
+                        var id = token_table.find_id_from_token(req.body.token);
+                        if (id != -1 && req.body.token == get_token_root()){
 	                            data.createdomain(req.body.name, req.body, datacreatedom(res));
-                            }
+                        }
+
                             else{
                             res.statusCode=402;
                             res.send({error : "vous n'avez pas les permissions"});
@@ -637,9 +706,13 @@ app.put('/domain', function(req, res) {
         res.send({error : "pas les bons paramètres envoyés "});
         }
         else {
-            if(req.body.token == 1){
+
+            var id = token_table.find_id_from_token(req.body.token);
+            if (id != -1 && req.body.token == get_token_root()){
                   data.updatedomain(req.body.id, req.body.name, req.body,  dataupdom(res));
-                  }
+            }
+
+
                   else{
                   res.statusCode=402;
                   res.send({error : "vous n'avez pas les permissions"});
