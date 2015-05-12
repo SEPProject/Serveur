@@ -621,6 +621,7 @@ app.options('/applet',function(req,res,next){
 });
 
 app.options('/user/action',function(req,res,next){
+	console.log("WE SEE YOU NOW");
 	setHeader(res);
 	next();
 });
