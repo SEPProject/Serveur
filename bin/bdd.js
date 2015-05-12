@@ -3,13 +3,14 @@ var mysql       =     require("mysql");
 /*
 * Configure MySQL parameters.
 */
-/*var connection  =     mysql.createConnection({
+/*
+var connection  =     mysql.createConnection({
 host : "mysql.sepdb.alwaysdata.net",
 user : "sepdb",
 password : "security1",
 database : "sepdb_database"
-});*/
-var connection  =     mysql.createConnection({
+});
+*/var connection  =     mysql.createConnection({
 host : "127.0.0.1",
 port : "3306",
 user : "root",

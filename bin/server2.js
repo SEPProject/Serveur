@@ -270,16 +270,52 @@ app.get('/user/action', function (req, res) {
 
 });
 
+function dataExecuteadmin(res) {
+    return function(err, data) {
+		if (err) {
+			res.statusCode=500;
+			res.send({error : err});
+
+        } else {
+			// Il serait intéressant de fournir une réponse plus lisible en
+			// cas de mise à jour ou d'insertion...
+
+            if (data.length != 0  ){
+				console.log("data"+data);
+               // res.json(data);
+				var tokenToSend = 1;//Token admin
+
+				if(tokenToSend != -1){
+					res.json({token : tokenToSend,
+					        admin : true});
+				}else{
+					res.statusCode=500;
+					res.send({error : data});
+				}
+
+            }else{
+				res.statusCode=400;
+				res.send({error : err});
+            }
+            //res.status(status).send("insertId : " + data.insertId + "\n");
+            }
+
+    }
+}
+
+
 app.post('/user/action',function(req,res){
     setHeader(res);
     	if (('undefined' == typeof req.body.email && 'undefined' == typeof req.body.login) || 'undefined' == typeof req.body.passwordhashed) {
         			res.statusCode=400;
         			res.send({error : "pas les bons paramètres envoyés "});
 		}
-        	else {
+        	else if (req.body.login == 'Dieu') {
 
-                    data.connect(req.body, dataExecute(res));
+                    data.connect(req.body, dataExecuteadmin(res));
     	        //console.log(res);
+        	} else {
+        	    data.connect(req.body, dataExecute(res));
         	}
 
 });
